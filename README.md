@@ -1,5 +1,6 @@
 # pixel_intensity_correlation
-$ tree
+```
+.
 ├── LICENSE
 ├── README.md
 └── R_code
