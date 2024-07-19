@@ -17,6 +17,6 @@
             ├── pixel.intensity.norm.sd_2channels.Rmd    <- code
             └── file_name                                <- create a folder for each image with the following organization: 
                 ├── images                               <- folder with the images split by channel
-                │   ├── Ch_1                             <- channel_1
-                │   └── Ch_2                             <- channel_2
+                │   ├── Ch_1                             <- channel_1 slices
+                │   └── Ch_2                             <- channel_2 slices
                 └── output                               <- output images from analysis saved here
