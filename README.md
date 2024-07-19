@@ -13,7 +13,7 @@
     │           └── output                               <- output images from analysis saved here
     └── pixel.intensity_norm.SD                          <- Analysis using StD pixel intensity
         ├── 1channel_zscore                              <- for 1 channel images
-        └── 2channel_delata.zscore                       <- for 2 channel images
+        └── 2channel_delta.zscore                        <- for 2 channel images
             ├── pixel.intensity.norm.sd_2channels.Rmd    <- code
             └── file_name                                <- create a folder for each image with the following organization: 
                 ├── images                               <- folder with the images split by channel
