@@ -54,5 +54,8 @@ A [z-score](https://www.codecademy.com/article/normalization) represents the num
 >     - `scale_fill_gradientn(labels = legend.labels, breaks = c(-6, 0, 6), limits = c(-6, 6)`
 > <img width="916" alt="Screenshot 2024-07-23 at 2 08 19 PM" src="https://github.com/user-attachments/assets/a8586019-0a8d-4336-b4c9-860af7370a85">
 > - for movies: to combine all intensity_corr_zscore slices back together, use ImageJ > Stacks > Tools > Concatenate...
-https://github.com/user-attachments/assets/0321714d-8d85-4065-95f0-617546925f7e
+
+https://github.com/user-attachments/assets/0af5bc4f-839b-449c-a75b-78c9f95f24dc
+
+
 
