@@ -48,7 +48,8 @@ A [z-score](https://www.codecademy.com/article/normalization) represents the num
 > [!TIP]
 > - to split movies into splices, use ImageJ: Stack > Tools > Stack Splitter
 > - input images can but either 8-bit or 16-bit .tif files
-> - for movies: to combine all intensity_corr_zscore slices back together, use ImageJ > Stacks > Tools > Concatenate... 
+> - for movies: to combine all intensity_corr_zscore slices back together, use ImageJ > Stacks > Tools > Concatenate...
+> [![Watch the video](https://raw.githubusercontent.com/maryanncollins/pixel_intensity_correlation/main/sample_movie/output/intensity_corr_zscore_mitosis.mov)
 > - if `Error in apply(mtx.tmp, 2, rev) : dim(X) must have a positive length`
 >     - change LUT to grayscale for each channel
 > - if green pixels appear, adjust the z-score range in line 172
