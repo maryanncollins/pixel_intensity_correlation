@@ -1,5 +1,5 @@
 # pixel_intensity_correlation z-score
-### This code will perform a normalization of the intensity between two channels, represented as a difference between two z-scores (`Δz-score`), as a way of visulizing where there is enrichment oen channel compared to the other.
+### This code will perform a normalization of the intensity between two channels, represented as a difference between two z-scores (`Δz-score`), as a way of visualizing where there is enrichment one channel compared to the other.
 A [z-score](https://www.codecademy.com/article/normalization) represents the number of standard deviations a value (x) is above or below the mean of a set of numbers when the data are normally distributed. This method of normalization centers the data around 0.
 
 <img width="995" alt="Screenshot 2024-07-23 at 1 49 35 PM" src="https://github.com/user-attachments/assets/eeb1b442-dc61-4d1e-afa9-387cf12f304e">
