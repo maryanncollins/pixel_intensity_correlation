@@ -1,10 +1,14 @@
 # pixel_intensity_correlation z-score
+### This code will perform a normalization of the intensity between two channels, represented as a difference between two z-scores (`Δz-score`), as a way of visulizing where there is enrichment oen channel compared to the other.
+A [z-score](https://www.codecademy.com/article/normalization) represents the number of standard deviations a value (x) is above or below the mean of a set of numbers when the data are normally distributed. This method of normalization centers the data around 0 with `[-σ, +σ]` at `[-1, 1]`
 
-<b>DIRECTORY ORGANIZATION</b>: this is a guide for how folders/files should be organized
-- to split movies into splices, use ImageJ: Stack > Tools > Stack Splitter
-- input images can but either 8-bit or 16-bit .tif files
-- if `Error in apply(mtx.tmp, 2, rev) : dim(X) must have a positive length`, change LUT to grayscale for each channel
+<img width="995" alt="Screenshot 2024-07-23 at 1 49 35 PM" src="https://github.com/user-attachments/assets/eeb1b442-dc61-4d1e-afa9-387cf12f304e">
+<i>all images used in this demo are from ImageJ (https://imagej.net/ij/images/)</i>
+<br>
+<br>
 
+> [!IMPORTANT]
+> <b>DIRECTORY ORGANIZATION</b>: this is a guide for how folders/files should be organized
 ```
 .
 ├── pixel_intensity_zscore.Rmd           <- code (saved here)
@@ -15,7 +19,7 @@
 │   │   │   ├── C1_sample2_filename
 │   │   │   ├── ...
 │   │   │   └── C1_sampleN_filename
-│   │   └── ch_2                         <- sub-folder 2, contains all channel_2 slices, with the same name format
+│   │   ├── ch_2                         <- sub-folder 2, contains all channel_2 slices, with the same name format
 │   │   │   ├── C2_sample1_filename
 │   │   │   ├── C2_sample2_filename
 │   │   │   ├── ...
@@ -39,3 +43,10 @@
     │   │   └── C2_slice000N_filename
     │   └── sample_movie                 <- sample movie (from: https://imagej.net/ij/images/)
     └── output                           <- all output images saved here (will be generated automatically)
+```
+
+> [!TIP]
+> - to split movies into splices, use ImageJ: Stack > Tools > Stack Splitter
+> - input images can but either 8-bit or 16-bit .tif files
+> - if `Error in apply(mtx.tmp, 2, rev) : dim(X) must have a positive length`, change LUT to grayscale for each channel
+> - 
