@@ -55,11 +55,7 @@ A [z-score](https://www.codecademy.com/article/normalization) represents the num
 > <img width="916" alt="Screenshot 2024-07-23 at 2 08 19 PM" src="https://github.com/user-attachments/assets/a8586019-0a8d-4336-b4c9-860af7370a85">
 > - for movies: to combine all intensity_corr_zscore slices back together, use ImageJ > Stacks > Tools > Concatenate...
 
-
-
-https://github.com/user-attachments/assets/401d61c8-9a7b-4539-816d-33fef58fd3ac
-
-
+<video src='https://github.com/user-attachments/assets/709bb188-1677-489f-92d6-bd06efd687c4' />
 
 
 
