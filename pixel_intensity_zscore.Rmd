@@ -169,7 +169,7 @@ plot_matrix <- function(norm.values_sub){
     #geom_tile() + # use for making high-resolution figures (longer processing time)
     coord_fixed() +
 
-    scale_fill_gradientn(labels = legend.labels, breaks = c(-6, 0, 6), limits = c(-6, 6),
+    scale_fill_gradientn(labels = legend.labels, breaks = c(-18, 0, 18), limits = c(-18, 18),
                          colors = c(rev((cet_pal(256, name = "d1a")))), na.value = na.value.forplot,
                          guide = guide_colorbar(frame.colour = "black", frame.linewidth = 0.25,
                                                 ticks.colour = "NA", barwidth = 0.75, barheight = 8)) +
@@ -215,7 +215,7 @@ plot_matrix <- function(norm.values_sub){
 
 save_image_matrix <- function(intensity.corr.zscore_plot, prefix){
   #names each output png with index number
-  ggsave(paste0("intensity_corr_zscore_", prefix, "-", image_name, ".png"), 
+  ggsave(paste0("intensity_corr_zscore_", prefix, "-", image_name, ".pdf"), 
          plot = intensity.corr.zscore_plot, path = here(paste.pathname.output.matrix), dpi = 300, width = 1800, height = 1050, units = "px")
   
 }
