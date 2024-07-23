@@ -1,0 +1,246 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r read-me}
+
+# DIRECTORY ORGANIZATION: this is a guide for how folders/files should be organized
+# to split movies into splices, use ImageJ: Stack > Tools > Stack Splitter
+
+# .
+# ├── pixel_intensity_zscore.Rmd            <- code (saved here)
+# ├── sample_images                        <- folder of fixed sample images with the following organization: 
+# │   ├── images                           <- folder called 'images' containing two sub-folders, split by channel (channel 1 and 2)
+# │   │   ├── ch_1                         <- sub-folder 1, contains all channel_1 slices, with the following name format
+# │   │   │   ├── C1_sample1_filename
+# │   │   │   ├── C1_sample2_filename
+# │   │   │   ├── ...
+# │   │   │   └── C1_sampleN_filename
+# │   │   └── ch_2                         <- sub-folder 2, contains all channel_2 slices, with the same name format
+# │   │   │   ├── C2_sample1_filename
+# │   │   │   ├── C2_sample2_filename
+# │   │   │   ├── ...
+# │   │   │   └── C2_sampleN_filename
+# │   │   ├── sample1                      <- sample images (from: https://imagej.net/ij/images/)
+# │   │   ├── sample2                      
+# │   │   ├── ...                          
+# │   │   └── sampleN                      
+# │   └── output                           <- all output images saved here (will be generated automatically)
+# └── sample_movie                         <- create a folder for each movie file with the following organization: 
+#     ├── images                           <- folder called 'images' containing two sub-folders, split by channel (channel 1 and 2)
+#     │   ├── ch_1                         <- sub-folder 1, contains all channel_1 slices, with the following name format
+#     │   │   ├── C1_slice0001_filename
+#     │   │   ├── C1_slice0002_filename
+#     │   │   ├── ...
+#     │   │   └── C1_slice000N_filename
+#     │   ├── ch_2                         <- sub-folder 2, contains all channel_2 slices, with the same name format
+#     │   │   ├── C2_slice0001_filename
+#     │   │   ├── C2_slice0002_filename
+#     │   │   ├── ...
+#     │   │   └── C2_slice000N_filename
+#     │   └── sample_movie                 <- sample movie (from: https://imagej.net/ij/images/)
+#     └── output                           <- all output images saved here (will be generated automatically)
+
+```
+
+```{r set-up, message=TRUE, warning=FALSE}
+
+# load libraries
+library(tidyverse)
+library(readxl)
+library(here)
+library(EBImage)
+library(cetcolor)
+library(latex2exp)
+
+# set directory
+  # i_am is a function from library(here) that sets the path to the same folder as the file name + extension in quotes
+  # here() shows current location
+i_am("pixel_intensity_zscore.Rmd")
+here()
+
+#ask user which folder
+work.dr <- readline(prompt = "name of folder: ")
+work.dr <- as.character(work.dr)
+
+#creating the path to images, split by channel 1 and channel 2, and output folders
+image.path <- ""
+image.path.ch_1 <- "/images/ch_1"
+image.path.ch_2 <- "/images/ch_2"
+path.output.matrix <- "/output"
+
+paste.pathname <- paste0(work.dr, image.path)
+paste.pathname.ch_1 <- paste0(work.dr, image.path.ch_1)
+paste.pathname.ch_2 <- paste0(work.dr, image.path.ch_2)
+paste.pathname.output.matrix <- paste0(work.dr, path.output.matrix)
+
+#listing the number of images in the selected folder
+num.files <- length(list.files(here(paste.pathname.ch_1)))
+print(paste("images in this folder:", work.dr, "=", num.files))
+
+```
+
+
+```{r function: extract pixel values} 
+
+prep_matrix <- function(img_ch1, img_ch2){
+  
+  counter <<- counter+1
+    
+  #display the image and image information
+  img_ch1
+  print(paste0("processing image: ", prefix, " out of ", num.files, " (",round(100*(counter/num.files), digits = 2),"%)"))
+  
+  #convert the image into a matrix to extract pixel intensity values
+    #transpose and vertically flip matrix to proper orientation
+    #create a dataframe with pixel values
+  img.matrix_ch1 <- as.matrix(img_ch1)
+
+  mtx.tmp <- apply(t(img.matrix_ch1), 2, rev)
+  img.matrix_ch1 <- apply(mtx.tmp, 2, rev)
+  ch1_pixel_values <- as.data.frame(img.matrix_ch1)
+  
+  #determine average pixel intensity value; can print value if needed
+  avg.intensity_ch1 <- mean(img.matrix_ch1)
+  sd.intensity_ch1 <- sd(img.matrix_ch1)
+  #print(paste("The average pixel intensity is for channel 1:", round(avg.intensity_ch1, digits = 3)))
+  
+  #normalize pixel intensity values: [pixel_intensity - avg_intensity]/[avg_intensity]
+  norm.values_ch1 <- img.matrix_ch1 - avg.intensity_ch1
+  norm.values_ch1 <- norm.values_ch1 / sd.intensity_ch1
+  norm.values_ch1 <- round(norm.values_ch1, digits = 3) 
+
+  #----------
+  
+  #display the image and image information
+  img_ch2
+  
+  #convert the image into a matrix to extract pixel intensity values
+    #transpose and vertically flip matrix to proper orientation
+    #create a dataframe with pixel values
+  img.matrix_ch2 <- as.matrix(img_ch2)
+  
+  mtx.tmp <- apply(t(img.matrix_ch2),2,rev)
+  img.matrix_ch2 <- apply(mtx.tmp, 2, rev)
+  ch2_pixel_values <- as.data.frame(img.matrix_ch2)
+  
+  #determine average pixel intensity value; can print value if needed
+  avg.intensity_ch2 <- mean(img.matrix_ch2)
+  sd.intensity_ch2 <- sd(img.matrix_ch2)
+  head(sd.intensity_ch2)
+  #print(paste("The average pixel intensity for channel 2 is:", round(avg.intensity_ch2, digits = 3)))
+  
+  #normalize pixel intensity values: [pixel_intensity - avg_intensity]/[avg_intensity]
+
+  norm.values_ch2 <- img.matrix_ch2 - avg.intensity_ch2
+    norm.values_ch2 <- norm.values_ch2 / sd.intensity_ch2
+    norm.values_ch2 <- round(norm.values_ch2, digits = 3) 
+
+  #----------
+  
+  #subtract Ch2 - Ch1
+    #save and export normalized values to .csv file if needed
+  norm.values_sub <- norm.values_ch2 - norm.values_ch1
+  #write.table(norm.values_sub, file = "norm.values_sub.csv", col.names = FALSE, row.names = FALSE, sep = ",")
+    
+}
+
+```
+
+```{r function: plot normalized matrix}
+
+legend.labels <- c("Ch1\n\n", "   0", "\n\nCh2")
+na.value.forplot <- "green"
+  #this will color values outside the set z-score range to green, adjust scale accordingly if green pixels are present (in line 172)
+
+
+plot_matrix <- function(norm.values_sub){
+  #plot normalized values
+    # image() interprets the matrix as a table of f(x[i], y[j]) values,
+    # so that the x axis corresponds to rows and the y axis to columns
+    # with column 1 at the bottom (a 90 degree counter-clockwise rotation of the conventional printed layout of a matrix)
+  rotate.matrix <- function(norm.values_sub) t(apply(norm.values_sub, 2, rev))
+  norm.matrix_sub <- rotate.matrix(norm.values_sub)
+  
+  df.norm_values <- reshape2::melt(norm.matrix_sub, c("x", "y"), value.name = "z")
+  
+  intensity.corr.zscore_plot <- ggplot(dat = df.norm_values,aes(x = x, y = y, fill = z)) +
+    geom_raster() +
+    #geom_tile() + # use for making high-resolution figures (longer processing time)
+    coord_fixed() +
+
+    scale_fill_gradientn(labels = legend.labels, breaks = c(-6, 0, 6), limits = c(-6, 6),
+                         colors = c(rev((cet_pal(256, name = "d1a")))), na.value = na.value.forplot,
+                         guide = guide_colorbar(frame.colour = "black", frame.linewidth = 0.25,
+                                                ticks.colour = "NA", barwidth = 0.75, barheight = 8)) +
+    
+    scale_x_continuous(expand = c(0, 0), limits = c(0, ncol(returned_matrix))) +
+    scale_y_continuous(expand = c(0, 0), limits = c(0, nrow(returned_matrix))) +
+
+    labs(
+      title = "Intensity Correlation:",
+      subtitle = "z-score normalization",
+      fill = TeX(r"(\textbf{$\Delta$ z-score})"),
+      tag = TeX(r"($\frac{\left[x_{Ch2}-μ_{Ch2}\right]}{σ_{Ch2}}-\frac{\left[x_{Ch1}-μ_{Ch1}\right]}{σ_{Ch1}}$)")) +
+
+  #overall shape of graph area
+    theme_bw(14) +
+    theme(aspect.ratio = (nrow(returned_matrix)/ncol(returned_matrix))) +
+    
+  #text format for axis and titles  
+    theme(plot.title = element_text(face = "bold", size = 14, hjust = 0),
+          plot.subtitle = element_text(size = 10, hjust = 0),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank(),
+          legend.position = "right",
+          legend.direction = "vertical",
+          legend.title = element_text(size = 8, hjust = 0.5, vjust = 1, angle = 270, face = "bold"),
+          legend.title.position = "right",
+          legend.text = element_text(color = c("white", "black"), face = "bold", margin = margin(0, -1, 0, -8, "pt"), size = 4, hjust= -0.6),
+          legend.spacing.y = unit(1, "cm"),
+          plot.tag = element_text(size = 7, vjust = -1),
+          plot.tag.location = "plot",
+          plot.tag.position = "topright") +
+    guides(color = guide_legend(override.aes = list(fill = na.value.forplot)))
+
+  return(intensity.corr.zscore_plot)
+}
+
+```
+
+```{r function: save plot}
+
+save_image_matrix <- function(intensity.corr.zscore_plot, prefix){
+  #names each output png with index number
+  ggsave(paste0("intensity_corr_zscore_", prefix, "-", image_name, ".png"), 
+         plot = intensity.corr.zscore_plot, path = here(paste.pathname.output.matrix), dpi = 300, width = 1800, height = 1050, units = "px")
+  
+}
+
+```
+
+```{r warning=FALSE}
+
+files.ch1 <- list.files(here(paste.pathname.ch_1))
+files.ch2 <- list.files(here(paste.pathname.ch_2))
+
+counter <- 0 # new
+
+for (file in files.ch1){
+  img_ch1 <- file
+  
+  prefix <- unlist(strsplit(file, "_"))[2]
+  image_name <- unlist(strsplit(file, "_"))[3]
+  image_name <- unlist(strsplit(image_name, "[.]"))[1]
+  img_ch2 <- files.ch2[grepl(prefix, files.ch2)]
+  
+  returned_matrix <- prep_matrix(readImage(here(paste.pathname.ch_1, img_ch1)), readImage(here(paste.pathname.ch_2, img_ch2)))
+  image <- plot_matrix(returned_matrix)
+  save_image_matrix(image, prefix)
+}
+
+
+```
