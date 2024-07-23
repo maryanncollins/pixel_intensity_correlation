@@ -7,7 +7,7 @@
 
 ```
 .
-├── pixel_intensity_zscore.Rmd            <- code (saved here)
+├── pixel_intensity_zscore.Rmd           <- code (saved here)
 ├── sample_images                        <- folder of fixed sample images with the following organization: 
 │   ├── images                           <- folder called 'images' containing two sub-folders, split by channel (channel 1 and 2)
 │   │   ├── ch_1                         <- sub-folder 1, contains all channel_1 slices, with the following name format
