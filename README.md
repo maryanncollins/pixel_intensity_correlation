@@ -1,6 +1,6 @@
 # pixel_intensity_correlation z-score
 ### This code will perform a normalization of the intensity between two channels, represented as a difference between two z-scores (`Δz-score`), as a way of visulizing where there is enrichment oen channel compared to the other.
-A [z-score](https://www.codecademy.com/article/normalization) represents the number of standard deviations a value (x) is above or below the mean of a set of numbers when the data are normally distributed. This method of normalization centers the data around 0 with `[-σ, +σ]` at `[-1, 1]`
+A [z-score](https://www.codecademy.com/article/normalization) represents the number of standard deviations a value (x) is above or below the mean of a set of numbers when the data are normally distributed. This method of normalization centers the data around 0.
 
 <img width="995" alt="Screenshot 2024-07-23 at 1 49 35 PM" src="https://github.com/user-attachments/assets/eeb1b442-dc61-4d1e-afa9-387cf12f304e">
 <i>all images used in this demo are from ImageJ (https://imagej.net/ij/images/)</i>
@@ -48,5 +48,7 @@ A [z-score](https://www.codecademy.com/article/normalization) represents the num
 > [!TIP]
 > - to split movies into splices, use ImageJ: Stack > Tools > Stack Splitter
 > - input images can but either 8-bit or 16-bit .tif files
-> - if `Error in apply(mtx.tmp, 2, rev) : dim(X) must have a positive length`, change LUT to grayscale for each channel
-> - 
+> - if `Error in apply(mtx.tmp, 2, rev) : dim(X) must have a positive length`,
+change LUT to grayscale for each channel
+> - if green pixels appear, adjust the z-score range in line 172
+    `scale_fill_gradientn(labels = legend.labels, breaks = c(-6, 0, 6), limits = c(-6, 6)`
