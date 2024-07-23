@@ -48,7 +48,7 @@ A [z-score](https://www.codecademy.com/article/normalization) represents the num
 > [!TIP]
 > - to split movies into splices, use ImageJ: Stack > Tools > Stack Splitter
 > - input images can but either 8-bit or 16-bit .tif files
-> - if `Error in apply(mtx.tmp, 2, rev) : dim(X) must have a positive length`,
-change LUT to grayscale for each channel
+> - if `Error in apply(mtx.tmp, 2, rev) : dim(X) must have a positive length`
+>   change LUT to grayscale for each channel
 > - if green pixels appear, adjust the z-score range in line 172
-    `scale_fill_gradientn(labels = legend.labels, breaks = c(-6, 0, 6), limits = c(-6, 6)`
+>   `scale_fill_gradientn(labels = legend.labels, breaks = c(-6, 0, 6), limits = c(-6, 6)`
